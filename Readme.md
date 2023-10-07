@@ -4,10 +4,10 @@ Aplikasi ini adalah aplikasi sederhana untuk manajemen data pegawai. Aplikasi in
 
 ## Fitur
 
-- **Conn**: Kelas ini digunakan untuk membuat koneksi ke database.
+- **Conn**: Kelas ini bertanggung jawab untuk mengatur koneksi ke database. Ini adalah bagian penting dari aplikasi karena semua operasi data (menambahkan, memperbarui, melihat, dan menghapus data pegawai) memerlukan koneksi ke database.
 - **Splash**: Kelas ini digunakan untuk menampilkan splash screen.
 - **Home**: Kelas ini digunakan sebagai halaman utama aplikasi.
-- **Login dan Sign Up**: Kelas-kelas ini digunakan untuk melakukan verifikasi pengguna agar dapat mengakses menu dalam aplikasi.
+- **Login dan Sign Up**: Digunakan untuk 
 - **AddEmployee**: Kelas ini digunakan untuk menambahkan data pegawai baru.
 - **UpdateEmployee**: Kelas ini digunakan untuk memperbarui data pegawai.
 - **ViewEmployee**: Kelas ini digunakan untuk melihat data pegawai yang telah tersimpan di database.
@@ -26,7 +26,3 @@ Aplikasi ini adalah aplikasi sederhana untuk manajemen data pegawai. Aplikasi in
 ## Kontribusi
 
 Kontribusi dipersilakan. Untuk kontribusi besar, silakan buka issue terlebih dahulu untuk membahas apa yang ingin Anda ubah.
-
-## Lisensi
-
-EXCeeD
