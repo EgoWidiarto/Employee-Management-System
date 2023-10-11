@@ -1,6 +1,10 @@
 package com.empSystem;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +19,11 @@ public class RemoveEmp extends JFrame implements ActionListener {
         JLabel empId = new JLabel("SSN Pegawai");
         empId.setBounds(50, 50, 100, 30);
         add(empId);
+
+        // Setup Border Style
+        Border line = BorderFactory.createLineBorder(Color.decode("#0e0e0e"));
+        Border padding = new EmptyBorder(0, 10, 0, 0);
+        Border compounBorder = new CompoundBorder(line, padding);
 
         choiceSSN = new Choice();
         choiceSSN.setBounds(200, 50, 100, 30);
@@ -36,54 +45,55 @@ public class RemoveEmp extends JFrame implements ActionListener {
         JLabel labName = new JLabel("Nama");
         labName.setBounds(50, 100, 150, 30);
         add(labName);
-
         JLabel lbNametxt = new JLabel();
         lbNametxt.setBounds(200, 100, 150, 30);
+        lbNametxt.setBorder(compounBorder);
         add(lbNametxt);
 
         JLabel labbdate = new JLabel("Tanggal Lahir");
         labbdate.setBounds(50, 170, 150, 30);
         add(labbdate);
-
         JLabel lbBdatetxt = new JLabel();
         lbBdatetxt.setBounds(200, 170, 150, 30);
+        lbBdatetxt.setBorder(compounBorder);
         add(lbBdatetxt);
 
         JLabel labAddress = new JLabel("Alamat");
         labAddress.setBounds(50, 240, 100, 30);
         add(labAddress);
-
         JLabel lbAddresstxt = new JLabel();
         lbAddresstxt.setBounds(200, 240, 150, 30);
+        lbAddresstxt.setBorder(compounBorder);
         add(lbAddresstxt);
 
         JLabel labsex = new JLabel("Gender");
         labsex.setBounds(500, 100, 100, 30);
         add(labsex);
-
         JLabel lbSextxt = new JLabel();
         lbSextxt.setBounds(650, 100, 100, 30);
+        lbSextxt.setBorder(compounBorder);
         add(lbSextxt);
 
         JLabel labsalary = new JLabel("Gaji");
         labsalary.setBounds(500, 170, 100, 30);
         add(labsalary);
-
         JLabel lbsalarytxt = new JLabel();
         lbsalarytxt.setBounds(650, 170, 100, 30);
+        lbsalarytxt.setBorder(compounBorder);
         add(lbsalarytxt);
 
         JLabel labdep = new JLabel("Tanggal Lahir");
         labdep.setBounds(500, 240, 100, 30);
         add(labdep);
-
         JLabel lbdeptxt = new JLabel();
         lbdeptxt.setBounds(650, 240, 100, 30);
+        lbdeptxt.setBorder(compounBorder);
         add(lbdeptxt);
 
         try {
+            String section = "name, bdate, ssn, address, sex, salary,";
             Connection conn = Conn.getConnection();
-            String query = "SELECT * FROM employee WHERE ssn = ?";
+            String query = "SELECT " + section + "FROM employee e JOIN department d ON e.dep_id = d.dep_id WHERE ssn = ?";
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, choiceSSN.getSelectedItem());  // asumsikan empId adalah integer
             ResultSet result = pstmt.executeQuery();
@@ -94,7 +104,7 @@ public class RemoveEmp extends JFrame implements ActionListener {
                 lbAddresstxt.setText(result.getString("address"));
                 lbSextxt.setText(result.getString("sex"));
                 lbsalarytxt.setText(result.getString("salary"));
-                lbdeptxt.setText(result.getString("department"));
+                lbdeptxt.setText(result.getString("dname"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -153,8 +163,8 @@ public class RemoveEmp extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }
         } else {
-            setVisible(false);
             new Home();
+            setVisible(false);
         }
     }
 
@@ -176,6 +186,6 @@ public class RemoveEmp extends JFrame implements ActionListener {
     }
 
     public static void main(String[] arg){
-        new RemoveEmp();
+        new Splash();
     }
 }

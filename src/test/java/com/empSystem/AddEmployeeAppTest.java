@@ -19,7 +19,7 @@ public class AddEmployeeAppTest {
         form.txtAddress.setText("123 Main St");
         form.txtSex.setText("M");
         form.txtSalary.setText("50000");
-        form.txtDep.setText("HR");
+        form.comboDep.setSelectedItem("IT");
 
         // Call the method
         form.addEmployee();

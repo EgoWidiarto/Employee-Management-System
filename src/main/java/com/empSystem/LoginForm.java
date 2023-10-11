@@ -33,29 +33,22 @@ public class LoginForm extends JFrame implements ActionListener{
         txtPassword = new JPasswordField();
         txtPassword.setBounds(150, 105, 150, 30);
         add(txtPassword);
-
-        ImageIcon imgPath = new ImageIcon(ClassLoader.getSystemResource("img/profile.png"));
+        
+        ImageIcon imgPath = new ImageIcon("src/main/resources/img/profile.png");
         Image imgScale = imgPath.getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT);
-        ImageIcon imgIcon = new ImageIcon(imgScale);
-        JLabel image = new JLabel(imgIcon);
+        ImageIcon img = new ImageIcon(imgScale);
+        JLabel image = new JLabel(img);
         image.setBounds(320, 15, 200, 200);
         add(image);
 
         //  Set Button Style
         //  Set Button Style
         login = new JButton("Login");
-        login.setBounds(150, 190, 110, 25);
+        login.setBounds(240, 180, 80,35);
         login.setBackground(Color.decode("#22668D"));
         login.setForeground(Color.decode("#FFFADD"));
         login.addActionListener(this);
         add(login);
-
-        sign = new JButton("Sign Up");
-        sign.setBounds(300, 190, 110, 25);
-        sign.setBackground(Color.decode("#22668D"));
-        sign.setForeground(Color.decode("#FFFADD"));
-        sign.addActionListener(this);
-        add(sign);
 
         //  Set Screen Size And Screen Location
         getContentPane().setBackground(Color.WHITE);
@@ -66,48 +59,42 @@ public class LoginForm extends JFrame implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == login) {
-            try {
-                Connection connection = Conn.getConnection();
-                String username = txtUser.getText();
-                String password = txtPassword.getText();
+        try {
+            Connection connection = Conn.getConnection();
+            String username = txtUser.getText();
+            String password = txtPassword.getText();
 
-                // Encrypt the password
-                MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-                messageDigest.update(password.getBytes());
-                byte[] hash = messageDigest.digest();
-                String hashedPassword = String.format("%064x", new java.math.BigInteger(1, hash));
+            // Encrypt the password
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(password.getBytes());
+            byte[] hash = messageDigest.digest();
+            String hashedPassword = String.format("%064x", new java.math.BigInteger(1, hash));
 
-                // Run a SQL query
-                String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-                PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setString(1, username);
-                statement.setString(2, hashedPassword);
-                ResultSet resultSet = statement.executeQuery();
+            // Run a SQL query
+            String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, hashedPassword);
+            ResultSet resultSet = statement.executeQuery();
 
-                // Iterate through the result set
-                if (resultSet.next()) {
-                    setVisible(false);
-                    new Home();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Username atau Password Salah!!");
-                }
-
-                // Close the connection
-                connection.close();
-                //  Ceck Data From DataBase
-
-            } catch (Exception ae) {
-                ae.printStackTrace();
+            // Iterate through the result set
+            if (resultSet.next()) {
+                new Home();
+                setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "Username atau Password Salah!!");
             }
-        } else {
-            setVisible(false);
-            new SignUp();
+
+            // Close the connection
+            connection.close();
+            //  Ceck Data From DataBase
+
+        } catch (Exception ae) {
+            ae.printStackTrace();
         }
     }
 
     public static void main(String[] arg){
-        LoginForm login = new LoginForm();
-        login.setVisible(true);
+        new LoginForm();
     }
 }

@@ -1,6 +1,9 @@
 package com.empSystem;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,21 +12,27 @@ import java.text.SimpleDateFormat;
 
 
 public class UpdateEmp extends JFrame implements ActionListener {
-    JTextField txtAddress, txtSex, txtSalary, txtDep;
-    JLabel txtName, txtBdate, txtSsn;
+    JTextField txtAddress, txtSalary, txtDep;
+    JLabel txtName, txtBdate, txtSsn, txtSex;
     JButton submit, view, back;
+    JComboBox<String> comboDep;
     String empId;
-    UpdateEmp(String empId) {
-        this.empId = empId;
-        JFrame frame = new JFrame("Centered Button");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new GridBagLayout());
+    UpdateEmp(String ssn) {
+        this.empId = ssn;
 
         // Create Laber For Heading
         JLabel empHeading = new JLabel("Perbarui Data Pegawai");
         empHeading.setBounds(290, 30, 500, 27);
         empHeading.setFont(new Font("Poppins", Font.BOLD, 25));
         add(empHeading);
+
+        // Setup Border Style
+        Border line = BorderFactory.createLineBorder(Color.decode("#0e0e0e"));
+        Border padding = new EmptyBorder(0, 10, 0, 0);
+        Border compounBorder = new CompoundBorder(line, padding);
+
+        // Setup Font Style
+        Font font = new Font("Poppins", Font.PLAIN, 18);
 
         // Text Field
         JLabel empName = new JLabel("Name");
@@ -32,6 +41,7 @@ public class UpdateEmp extends JFrame implements ActionListener {
         add(empName);
         txtName = new JLabel();
         txtName.setBounds(220, 120, 180, 30);
+        txtName.setBorder(compounBorder);
         add(txtName);
 
         JLabel empBdate = new JLabel("Tanggal Lahir");
@@ -40,15 +50,53 @@ public class UpdateEmp extends JFrame implements ActionListener {
         add(empBdate);
         txtBdate = new JLabel();
         txtBdate.setBounds(220, 180, 180, 30);
+        txtBdate.setBorder(compounBorder);
         add(txtBdate);
 
         JLabel empSsn = new JLabel("SSN");
         empSsn.setBounds(60, 240, 150, 30);
-        empSsn.setFont(new Font("Poppins", Font.PLAIN, 18));
+        empSsn.setFont(font);
         add(empSsn);
         txtSsn = new JLabel();
         txtSsn.setBounds(220, 240, 180, 30);
+        txtSsn.setBorder(compounBorder);
         add(txtSsn);
+
+        JLabel empSex = new JLabel("Gender");
+        empSex.setBounds(450, 120, 150, 30);
+        empSex.setFont(font);
+        add(empSex);
+        txtSex = new JLabel();
+        txtSex.setBounds(600, 120, 180, 30);
+        txtSex.setBorder(compounBorder);
+        add(txtSex);
+
+        JLabel empAdres = new JLabel("Alamat");
+        empAdres.setBounds(60, 300, 150, 30);
+        empAdres.setFont(font);
+        add(empAdres);
+        txtAddress = new JTextField();
+        txtAddress.setBounds(220, 300, 180, 30);
+        txtAddress.setBorder(compounBorder);
+        add(txtAddress);
+
+        JLabel empSalary = new JLabel("Gaji");
+        empSalary.setBounds(450, 180, 150, 30);
+        empSalary.setFont(font);
+        add(empSalary);
+        txtSalary = new JTextField();
+        txtSalary.setBounds(600, 180, 180, 30);
+        txtSalary.setBorder(compounBorder);
+        add(txtSalary);
+
+        JLabel empDep = new JLabel("Department");
+        empDep.setBounds(450, 240, 150, 30);
+        empDep.setFont(font);
+        add(empDep);
+        comboDep = new JComboBox<>();
+        comboDep.setBounds(600, 240, 180, 30);
+        comboDep.setBackground(Color.WHITE);
+        add(comboDep);
 
         try {
             Connection conn = Conn.getConnection();
@@ -61,46 +109,27 @@ public class UpdateEmp extends JFrame implements ActionListener {
                 txtName.setText(result.getString("name"));
                 txtBdate.setText(result.getString("bdate"));
                 txtSsn.setText(result.getString("ssn"));
-                txtAddress.setText(result.getString("address"));
                 txtSex.setText(result.getString("sex"));
+                txtAddress.setText(result.getString("address"));
                 txtSalary.setText(result.getString("salary"));
-                txtDep.setText(result.getString("department"));
+
+                try {
+                    Connection connection = Conn.getConnection();
+                    String queryDname = "SELECT dname FROM department";
+                    PreparedStatement pst = connection.prepareStatement(queryDname);
+                    ResultSet rs = pst.executeQuery();
+
+                    while (rs.next()) {
+                        String name = rs.getString("dname");
+                        comboDep.addItem(name);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        JLabel empAdres = new JLabel("Alamat");
-        empAdres.setBounds(60, 300, 150, 30);
-        empAdres.setFont(new Font("Poppins", Font.PLAIN, 18));
-        add(empAdres);
-        txtAddress = new JTextField();
-        txtAddress.setBounds(220, 300, 180, 30);
-        add(txtAddress);
-
-        JLabel empSex = new JLabel("Gender");
-        empSex.setBounds(450, 120, 150, 30);
-        empSex.setFont(new Font("Poppins", Font.PLAIN, 18));
-        add(empSex);
-        txtSex = new JTextField();
-        txtSex.setBounds(600, 120, 180, 30);
-        add(txtSex);
-
-        JLabel empSalary = new JLabel("Gaji");
-        empSalary.setBounds(450, 180, 150, 30);
-        empSalary.setFont(new Font("Poppins", Font.PLAIN, 18));
-        add(empSalary);
-        txtSalary = new JTextField();
-        txtSalary.setBounds(600, 180, 180, 30);
-        add(txtSalary);
-
-        JLabel empDep = new JLabel("Department");
-        empDep.setBounds(450, 240, 150, 30);
-        empDep.setFont(new Font("Poppins", Font.PLAIN, 18));
-        add(empDep);
-        txtDep = new JTextField();
-        txtDep.setBounds(600, 240, 180, 30);
-        add(txtDep);
 
         submit = new JButton("Submit");
         submit.setBounds(280, 410, 100, 40);
@@ -142,30 +171,38 @@ public class UpdateEmp extends JFrame implements ActionListener {
                 java.util.Date parsed = format.parse(txtBdate.getText());
                 java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
 
+                // Prepare The dep_Id
+                String selectedDepName = (String)comboDep.getSelectedItem();
+                String querySQL = "SELECT dep_id FROM department WHERE dname = ?";
+                PreparedStatement pst = conn.prepareStatement(querySQL);
+                pst.setString(1, selectedDepName);
+                ResultSet rs = pst.executeQuery();
+                String depIdTrue;
+                if (rs.next()) {
+                    depIdTrue = rs.getString("dep_id");
+                } else {
+                    throw new IllegalArgumentException("Department tidak ditemukan");
+                }
+
                 // Prepare an SQL statement
                 String query = "UPDATE employee SET name = ?, bdate = ?, ssn = ?, address = ?, sex = ?, salary = ?, department = ? WHERE ssn = ?";
                 PreparedStatement stmt = conn.prepareStatement(query);
 
-// Set the values from the text fields
+                // Set the values from the text fields
                 stmt.setString(1, txtName.getText());
                 stmt.setDate(2, sqlDate);
                 stmt.setString(3, txtSsn.getText());
                 stmt.setString(4, txtAddress.getText());
                 stmt.setString(5, txtSex.getText());
                 stmt.setFloat(6, Float.parseFloat(txtSalary.getText()));
-                stmt.setString(7, txtDep.getText());
-                stmt.setString(8, txtSsn.getText());  // assuming you want to update the record of this ssn
+                stmt.setString(7, depIdTrue);
+                stmt.setString(8, txtSsn.getText()); // SSN employee Updated
 
                 int rowsUpdated = stmt.executeUpdate();
                 if (rowsUpdated > 0) {
                     JOptionPane.showMessageDialog(null, "Data update successfully");
-                    txtName.setText("");
-                    txtBdate.setText("");
-                    txtSsn.setText("");
-                    txtAddress.setText("");
-                    txtSex.setText("");
-                    txtSalary.setText("");
-                    txtDep.setText("");
+                    new ViewEmployee();
+                    setVisible(false);
                 }
 
                 // Close the connection
@@ -176,15 +213,15 @@ public class UpdateEmp extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
             }
         } else if (e.getSource() == view) {
-            setVisible(false);
             new ViewEmployee();
-        } else {
             setVisible(false);
+        } else {
             new Home();
+            setVisible(false);
         }
     }
 
     public static void main(String[] arg){
-        new UpdateEmp("");
+        new Splash();
     }
 }

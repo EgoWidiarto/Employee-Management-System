@@ -25,7 +25,7 @@ public class Splash extends JFrame implements ActionListener {
         clickToContinue.addActionListener(this);
         add(clickToContinue);
 
-        ImageIcon imgPath = new ImageIcon(ClassLoader.getSystemResource("img/ruangMeeting.jpg"));
+        ImageIcon imgPath = new ImageIcon("src/main/resources/img/ruangMeeting.jpg");
         Image imgScale = imgPath.getImage().getScaledInstance(800, 550, Image.SCALE_DEFAULT);
         ImageIcon imgIcon = new ImageIcon(imgScale);
         JLabel image = new JLabel(imgIcon);
@@ -39,8 +39,8 @@ public class Splash extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-        setVisible(false);
         new LoginForm();
+        setVisible(false);
     }
 
     public static void main(String[] arg) {

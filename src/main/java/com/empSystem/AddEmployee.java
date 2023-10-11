@@ -4,12 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 
 
 public class AddEmployee extends JFrame implements ActionListener {
-    JTextField txtName, txtBdate, txtSsn, txtAddress, txtSex, txtSalary, txtDep;
+    JTextField txtName, txtBdate, txtSsn, txtAddress, txtSex, txtSalary;
+    JComboBox  comboDep;
     JButton submit, view, back;
     AddEmployee() {
         JFrame frame = new JFrame("Centered Button");
@@ -75,9 +77,24 @@ public class AddEmployee extends JFrame implements ActionListener {
         empDep.setBounds(450, 240, 150, 30);
         empDep.setFont(new Font("Poppins", Font.PLAIN, 18));
         add(empDep);
-        txtDep = new JTextField();
-        txtDep.setBounds(600, 240, 180, 30);
-        add(txtDep);
+        comboDep = new JComboBox();
+        try {
+            Connection connection = Conn.getConnection();
+            String query = "SELECT dname FROM department";
+            PreparedStatement pst = connection.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String name = rs.getString("dname");
+                comboDep.addItem(name);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        comboDep.setBounds(600, 240, 180, 30);
+        comboDep.setBackground(Color.WHITE);
+        comboDep.setSelectedIndex(-1);
+        add(comboDep);
 
         // Button Style
         submit = new JButton("Submit");
@@ -118,11 +135,11 @@ public class AddEmployee extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
             }
         } else if (e.getSource() == view) {
-            setVisible(false);
             new ViewEmployee();
-        } else {
             setVisible(false);
+        } else {
             new Home();
+            setVisible(false);
         }
     }
 
@@ -130,21 +147,46 @@ public class AddEmployee extends JFrame implements ActionListener {
         // Get a connection from your Conn class
         Connection conn = Conn.getConnection();
 
+        // Convert String To Date
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date parsed = format.parse(txtBdate.getText());
         java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
 
-        // Prepare an SQL statement
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO employee (name, bdate, ssn, address, sex, salary, department) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        // Select dep_id From ComboBox
+        String selectedDepName = (String)comboDep.getSelectedItem();
+        String query = "SELECT dep_id FROM department WHERE dname = ?";
+        PreparedStatement pst = conn.prepareStatement(query);
+        pst.setString(1, selectedDepName);
+        ResultSet rs = pst.executeQuery();
+        String depId = null;
+        if (rs.next()) {
+            depId = rs.getString("dep_id");
+        }
 
+        // Convert Salary To Big Decimal
+        BigDecimal salaryBig = new BigDecimal(txtSalary.getText());
+
+        // Prepare an SQL statement
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO employee (name, bdate, ssn, address, sex, salary, dep_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+        String nama = txtName.getText();
+        if(nama == null || nama.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nama tidak boleh kosong");
+        }
         // Set the values from the text fields
         stmt.setString(1, txtName.getText());
         stmt.setDate(2, sqlDate);
         stmt.setString(3, txtSsn.getText());
         stmt.setString(4, txtAddress.getText());
         stmt.setString(5, txtSex.getText());
-        stmt.setFloat(6, Float.parseFloat(txtSalary.getText()));
-        stmt.setString(7, txtDep.getText());
+        stmt.setBigDecimal(6, salaryBig);
+        if(depId != null || !depId.trim().isEmpty()) {
+            stmt.setString(7, depId);
+            // Setelah memasukkan data ke database, atur item yang dipilih menjadi null
+            comboDep.setSelectedItem(null);
+        } else {
+            throw new IllegalArgumentException("Department tidak boleh kosong");
+        }
 
         // Execute the statement
         int rowsAffected = stmt.executeUpdate();
@@ -157,7 +199,6 @@ public class AddEmployee extends JFrame implements ActionListener {
             txtAddress.setText("");
             txtSex.setText("");
             txtSalary.setText("");
-            txtDep.setText("");
         }
 
         // Close the connection
@@ -165,6 +206,6 @@ public class AddEmployee extends JFrame implements ActionListener {
     }
 
     public static void main(String[] arg){
-        new AddEmployee();
+        new Splash();
     }
 }
