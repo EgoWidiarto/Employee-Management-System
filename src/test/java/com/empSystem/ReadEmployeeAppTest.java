@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 public class ReadEmployeeAppTest {
     @Test
-    public void ReadEmployeeTest() throws Exception {
+    public void testReadEmployee() throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -25,14 +25,14 @@ public class ReadEmployeeAppTest {
             stmt.setString(1, ssn);
             rs = stmt.executeQuery();
 
-            assertTrue(rs.next());
-            assertEquals("John Doe", rs.getString("name"));
-            assertEquals("1980-01-01", rs.getString("bdate"));
-            assertEquals(ssn, rs.getString("ssn"));
-            assertEquals("M", rs.getString("sex"));
-            assertEquals("123 Main St", rs.getString("address"));
-            assertEquals("50000", rs.getString("salary"));
-            assertEquals("IT", rs.getString("department_name"));
+            assertTrue("Expected at least one row in result set", rs.next());
+            assertEquals("Expected name to be John Doe", "John Doe", rs.getString("name"));
+            assertEquals("Expected birth date to be 1980-01-01", "1980-01-01", rs.getString("bdate"));
+            assertEquals("Expected SSN to match input", ssn, rs.getString("ssn"));
+            assertEquals("Expected sex to be M", "M", rs.getString("sex"));
+            assertEquals("Expected address to be 123 Main St", "123 Main St", rs.getString("address"));
+            assertEquals("Expected salary to be 50000", "50000", rs.getString("salary"));
+            assertEquals("Expected department name to be IT", "IT", rs.getString("department_name"));
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
