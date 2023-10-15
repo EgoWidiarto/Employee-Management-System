@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 public class RemoveEmployeeAppTest {
     @Test
-    public void RemoveEmployeeTest() throws Exception {
+    public void testRemoveEmployee() throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -28,7 +28,7 @@ public class RemoveEmployeeAppTest {
             stmt = conn.prepareStatement("SELECT * FROM employee WHERE ssn = ?");
             stmt.setString(1, ssn);
             rs = stmt.executeQuery();
-            assertFalse(rs.next());  // Ini akan gagal jika ada hasil yang dikembalikan
+            assertFalse("Expected no rows in result set", rs.next());  // Ini akan gagal jika ada hasil yang dikembalikan
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
