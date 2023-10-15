@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 public class AddEmployeeAppTest {
     @Test
-    public void AddEmployeeTest() throws Exception {
+    public void testAddEmployee() throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -36,7 +36,7 @@ public class AddEmployeeAppTest {
             stmt.setString(1, "22051214069");
             rs = stmt.executeQuery();
 
-            assertTrue(rs.next());
+            assertTrue("Expected at least one row in result set", rs.next());
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
