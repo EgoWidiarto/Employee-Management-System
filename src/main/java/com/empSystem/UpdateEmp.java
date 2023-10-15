@@ -7,12 +7,14 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 
 
 public class UpdateEmp extends JFrame implements ActionListener {
-    JTextField txtAddress, txtSalary, txtDep;
+    JTextField txtAddress, txtSalary;
     JLabel txtName, txtBdate, txtSsn, txtSex;
     JButton submit, view, back;
     JComboBox<String> comboDep;
@@ -185,7 +187,7 @@ public class UpdateEmp extends JFrame implements ActionListener {
                 }
 
                 // Prepare an SQL statement
-                String query = "UPDATE employee SET name = ?, bdate = ?, ssn = ?, address = ?, sex = ?, salary = ?, department = ? WHERE ssn = ?";
+                String query = "UPDATE employee SET name = ?, bdate = ?, ssn = ?, address = ?, sex = ?, salary = ?, dep_id = ? WHERE ssn = ?";
                 PreparedStatement stmt = conn.prepareStatement(query);
 
                 // Set the values from the text fields

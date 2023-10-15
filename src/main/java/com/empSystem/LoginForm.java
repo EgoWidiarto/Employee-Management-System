@@ -2,10 +2,12 @@ package com.empSystem;
 
 import javax.swing.*;
 import java.awt.*;
-import java.security.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
+import java.security.MessageDigest;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class LoginForm extends JFrame implements ActionListener{
 

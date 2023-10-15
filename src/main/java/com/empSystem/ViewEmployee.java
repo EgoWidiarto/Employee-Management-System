@@ -1,11 +1,14 @@
 package com.empSystem;
 
+import net.proteanit.sql.DbUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
-import net.proteanit.sql.DbUtils;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class ViewEmployee extends JFrame implements ActionListener {
     JTable table = new JTable();
@@ -29,7 +32,11 @@ public class ViewEmployee extends JFrame implements ActionListener {
         add(jsp);
 
         // Search Employee From Their Department
-        comboDepSearch.setBounds(740, 100, 180, 30);
+        JLabel depart = new JLabel("Filter Department");
+        depart.setBounds(740, 100, 180, 30);
+        add(depart);
+        depart.setFont(new Font("Poppins", Font.PLAIN, 14));
+        comboDepSearch.setBounds(740, 140, 180, 30);
         comboDepSearch.setBackground(Color.WHITE);
         try {
             Connection connection = Conn.getConnection();
@@ -90,11 +97,11 @@ public class ViewEmployee extends JFrame implements ActionListener {
             if (ssn != null && !ssn.trim().isEmpty()) {
                 // Jika SSN diberikan, cari pegawai dengan SSN tersebut
                 querySQL = "SELECT " + section + " d.dname FROM employee e JOIN department d ON e.dep_id = d.dep_id WHERE ssn = ?";
-            } else if (comboDepSearch.getSelectedIndex() != -1) {
+            } else if (comboDepSearch.getSelectedIndex() > -1) {
                 // Jika tidak, tampilkan semua pegawai
                 querySQL = "SELECT " + section + " d.dname FROM employee e JOIN department d ON e.dep_id = d.dep_id WHERE dname = ?";
             } else {
-                querySQL = "SELECT e.*, d.dname FROM employee e JOIN department d ON e.dep_id = d.dep_id";
+                querySQL = "SELECT " + section + " d.dname FROM employee e JOIN department d ON e.dep_id = d.dep_id";
             }
 
             try {

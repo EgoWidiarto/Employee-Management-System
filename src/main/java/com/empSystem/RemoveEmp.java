@@ -4,13 +4,15 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class RemoveEmp extends JFrame implements ActionListener {
     Choice choiceSSN;
@@ -26,7 +28,7 @@ public class RemoveEmp extends JFrame implements ActionListener {
         Border compounBorder = new CompoundBorder(line, padding);
 
         choiceSSN = new Choice();
-        choiceSSN.setBounds(200, 50, 100, 30);
+        choiceSSN.setBounds(170, 50, 100, 30);
         add(choiceSSN);
 
         try {
@@ -46,7 +48,7 @@ public class RemoveEmp extends JFrame implements ActionListener {
         labName.setBounds(50, 100, 150, 30);
         add(labName);
         JLabel lbNametxt = new JLabel();
-        lbNametxt.setBounds(200, 100, 150, 30);
+        lbNametxt.setBounds(170, 100, 150, 30);
         lbNametxt.setBorder(compounBorder);
         add(lbNametxt);
 
@@ -54,7 +56,7 @@ public class RemoveEmp extends JFrame implements ActionListener {
         labbdate.setBounds(50, 170, 150, 30);
         add(labbdate);
         JLabel lbBdatetxt = new JLabel();
-        lbBdatetxt.setBounds(200, 170, 150, 30);
+        lbBdatetxt.setBounds(170, 170, 150, 30);
         lbBdatetxt.setBorder(compounBorder);
         add(lbBdatetxt);
 
@@ -62,7 +64,7 @@ public class RemoveEmp extends JFrame implements ActionListener {
         labAddress.setBounds(50, 240, 100, 30);
         add(labAddress);
         JLabel lbAddresstxt = new JLabel();
-        lbAddresstxt.setBounds(200, 240, 150, 30);
+        lbAddresstxt.setBounds(170, 240, 150, 30);
         lbAddresstxt.setBorder(compounBorder);
         add(lbAddresstxt);
 
@@ -70,7 +72,7 @@ public class RemoveEmp extends JFrame implements ActionListener {
         labsex.setBounds(500, 100, 100, 30);
         add(labsex);
         JLabel lbSextxt = new JLabel();
-        lbSextxt.setBounds(650, 100, 100, 30);
+        lbSextxt.setBounds(620, 100, 150, 30);
         lbSextxt.setBorder(compounBorder);
         add(lbSextxt);
 
@@ -78,7 +80,7 @@ public class RemoveEmp extends JFrame implements ActionListener {
         labsalary.setBounds(500, 170, 100, 30);
         add(labsalary);
         JLabel lbsalarytxt = new JLabel();
-        lbsalarytxt.setBounds(650, 170, 100, 30);
+        lbsalarytxt.setBounds(620, 170, 150, 30);
         lbsalarytxt.setBorder(compounBorder);
         add(lbsalarytxt);
 
@@ -86,14 +88,14 @@ public class RemoveEmp extends JFrame implements ActionListener {
         labdep.setBounds(500, 240, 100, 30);
         add(labdep);
         JLabel lbdeptxt = new JLabel();
-        lbdeptxt.setBounds(650, 240, 100, 30);
+        lbdeptxt.setBounds(620, 240, 150, 30);
         lbdeptxt.setBorder(compounBorder);
         add(lbdeptxt);
 
         try {
-            String section = "name, bdate, ssn, address, sex, salary,";
+            String section = "name, bdate, ssn, address, sex, salary, dname";
             Connection conn = Conn.getConnection();
-            String query = "SELECT " + section + "FROM employee e JOIN department d ON e.dep_id = d.dep_id WHERE ssn = ?";
+            String query = "SELECT " + section + " FROM employee e JOIN department d ON e.dep_id = d.dep_id WHERE ssn = ?";
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, choiceSSN.getSelectedItem());  // asumsikan empId adalah integer
             ResultSet result = pstmt.executeQuery();
@@ -170,7 +172,7 @@ public class RemoveEmp extends JFrame implements ActionListener {
 
     public boolean removeEmployee(String ssn) throws Exception {
         Connection conn = Conn.getConnection();
-        String query = "DELETE FROM employee WHERE ssn = ?";
+        String query = "CALL remove_emp(?)";
         PreparedStatement pstmt = conn.prepareStatement(query);
         pstmt.setString(1, ssn);
         int rowsDeleted = pstmt.executeUpdate();
