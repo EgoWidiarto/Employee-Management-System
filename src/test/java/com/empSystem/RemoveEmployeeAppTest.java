@@ -5,8 +5,9 @@ import org.junit.Test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 
 public class RemoveEmployeeAppTest {
     @Test
@@ -55,5 +56,12 @@ public class RemoveEmployeeAppTest {
                 }
             }
         }
+    }
+
+    @Test(expected = SQLException.class)
+    public void testRemoveNonExistentEmployee() throws Exception {
+        RemoveEmp form = new RemoveEmp();
+        form.choiceSSN.select("nonexistent_ssn");  // Assuming this SSN does not exist in the database
+        form.delete.doClick();
     }
 }

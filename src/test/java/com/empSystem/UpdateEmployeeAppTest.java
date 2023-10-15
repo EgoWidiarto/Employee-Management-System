@@ -5,8 +5,10 @@ import org.junit.Test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class UpdateEmployeeAppTest {
     @Test
@@ -61,5 +63,18 @@ public class UpdateEmployeeAppTest {
                 }
             }
         }
+    }
+
+    @Test(expected = SQLException.class)
+    public void testUpdateNonExistentEmployee() throws Exception {
+        UpdateEmp form = new UpdateEmp("nonexistent_ssn");  // Assuming this SSN does not exist in the database
+
+        // Set the text fields
+        form.txtAddress.setText("123 Main St");
+        form.txtSalary.setText("60000");
+        form.comboDep.setSelectedItem("Human Resource");
+
+        // Call the method
+        form.submit.doClick();
     }
 }

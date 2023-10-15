@@ -5,8 +5,9 @@ import org.junit.Test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class AddEmployeeAppTest {
     @Test
@@ -63,5 +64,22 @@ public class AddEmployeeAppTest {
                 }
             }
         }
+    }
+
+    @Test(expected = SQLException.class)
+    public void testAddEmployeeWithExistingSSN() throws Exception {
+        AddEmployee form = new AddEmployee();
+
+        // Set the text fields
+        form.txtName.setText("John Doe");
+        form.txtBdate.setText("1980-01-01");
+        form.txtSsn.setText("22051214069");  // Assuming this SSN already exists in the database
+        form.txtAddress.setText("123 Main St");
+        form.txtSex.setText("M");
+        form.txtSalary.setText("50000");
+        form.comboDep.setSelectedItem("IT");
+
+        // Call the method
+        form.addEmployee();
     }
 }
