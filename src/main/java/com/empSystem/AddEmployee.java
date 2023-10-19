@@ -131,7 +131,7 @@ public class AddEmployee extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == submit) {
             try {
-                addEmployee();
+                addEmp();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
@@ -145,7 +145,7 @@ public class AddEmployee extends JFrame implements ActionListener {
         }
     }
 
-    public void addEmployee() throws Exception {
+    public void addEmp() throws Exception {
         // Get a connection from your Conn class
         Connection conn = Conn.getConnection();
 

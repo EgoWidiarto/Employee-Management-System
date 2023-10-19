@@ -88,10 +88,10 @@ public class ViewEmployee extends JFrame implements ActionListener {
         setSize(950, 650);
         setLocation(190, 50);
         setVisible(true);
-        viewEmployee(null);
+        viewEmp(null);
     }
 
-    public void viewEmployee(String ssn) {
+    public void viewEmp(String ssn) {
             String section = "name, bdate, ssn, address, sex, salary,";
             String querySQL = "";
             if (ssn != null && !ssn.trim().isEmpty()) {
@@ -133,7 +133,7 @@ public class ViewEmployee extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == search) {
-            viewEmployee(txtEmp.getText());
+            viewEmp(txtEmp.getText());
         } else if (ae.getSource() == print) {
             try {
                 table.print();

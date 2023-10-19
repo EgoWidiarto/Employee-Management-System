@@ -30,7 +30,7 @@ public class AddEmployeeAppTest {
             form.comboDep.setSelectedItem("IT");
 
             // Call the method
-            form.addEmployee();
+            form.addEmp();
 
             // Test Data Exist Ot Not
             stmt = conn.prepareStatement("SELECT * FROM employee WHERE ssn = ?");
@@ -80,6 +80,6 @@ public class AddEmployeeAppTest {
         form.comboDep.setSelectedItem("IT");
 
         // Call the method
-        form.addEmployee();
+        form.addEmp();
     }
 }

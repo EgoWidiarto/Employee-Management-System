@@ -13,7 +13,7 @@ public class LoginForm extends JFrame implements ActionListener{
 
     JTextField txtUser;
     JPasswordField txtPassword;
-    JButton login, sign;
+    JButton login;
     LoginForm() {
         JLabel headingLog = new JLabel("Login Form");
         headingLog.setBounds(230, 5, 150, 30);
