@@ -84,7 +84,7 @@ public class RemoveEmp extends JFrame implements ActionListener {
         lbsalarytxt.setBorder(compounBorder);
         add(lbsalarytxt);
 
-        JLabel labdep = new JLabel("Tanggal Lahir");
+        JLabel labdep = new JLabel("Department");
         labdep.setBounds(500, 240, 100, 30);
         add(labdep);
         JLabel lbdeptxt = new JLabel();

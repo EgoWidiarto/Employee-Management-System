@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class Conn {
 
-    private static final String JDBC_DRIVER = "org.postgresql.Driver";
-    private static final String JDBC_URL = "jdbc:postgresql://localhost:5432/emp_management";
-    private static final String JDBC_USERNAME = "postgres";
+    private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/emp_management";
+    private static final String JDBC_USERNAME = "root";
     private static final String JDBC_PASSWORD = "1234";
 
     public static Connection getConnection() throws SQLException {
@@ -23,10 +23,8 @@ public class Conn {
     }
 
     public static void main(String[] args) {
-        try {
-            Connection connection = getConnection();
-            System.out.println("Connected to PostgreSQL database!");
-            connection.close();
+        try (Connection connection = getConnection()) {
+            System.out.println("Connected to MySQL database!");
         } catch (SQLException e) {
             System.err.println("Could not connect to database: " + e.getMessage());
             e.printStackTrace();
