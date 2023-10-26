@@ -62,7 +62,7 @@ public class LoginForm extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
         try {
-            Connection connection = Conn.getConnection();
+            // Get the username and password from the text fields
             String username = txtUser.getText();
             String password = txtPassword.getText();
 
@@ -74,23 +74,25 @@ public class LoginForm extends JFrame implements ActionListener{
 
             // Run a SQL query
             String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, username);
-            statement.setString(2, hashedPassword);
-            ResultSet resultSet = statement.executeQuery();
 
-            // Iterate through the result set
-            if (resultSet.next()) {
-                new Home();
-                setVisible(false);
-            } else {
-                JOptionPane.showMessageDialog(null, "Username atau Password Salah!!");
+            // Use try-with-resources to automatically close the resources after use
+            try (Connection connection = Conn.getConnection();
+                 PreparedStatement statement = connection.prepareStatement(sql)) {
+
+                statement.setString(1, username);
+                statement.setString(2, hashedPassword);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    // Iterate through the result set
+                    if (resultSet.next()) {
+                        JOptionPane.showMessageDialog(null, "Login Berhasil!!");
+                        new Home();
+                        setVisible(false);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Username atau Password Salah!!");
+                    }
+                }
             }
-
-            // Close the connection
-            connection.close();
-            //  Ceck Data From DataBase
-
         } catch (Exception ae) {
             ae.printStackTrace();
         }
