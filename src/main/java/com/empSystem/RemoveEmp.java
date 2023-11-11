@@ -84,7 +84,7 @@ public class RemoveEmp extends JFrame implements ActionListener {
         lbsalarytxt.setBorder(compounBorder);
         add(lbsalarytxt);
 
-        JLabel labdep = new JLabel("Department");
+        JLabel labdep = new JLabel("Tanggal Lahir");
         labdep.setBounds(500, 240, 100, 30);
         add(labdep);
         JLabel lbdeptxt = new JLabel();
@@ -172,7 +172,7 @@ public class RemoveEmp extends JFrame implements ActionListener {
 
     public boolean removeEmployee(String ssn) throws Exception {
         Connection conn = Conn.getConnection();
-        String query = "CALL remove_emp(?)";
+        String query = "DELETE FROM employee WHERE ssn = ?";
         PreparedStatement pstmt = conn.prepareStatement(query);
         pstmt.setString(1, ssn);
         int rowsDeleted = pstmt.executeUpdate();
