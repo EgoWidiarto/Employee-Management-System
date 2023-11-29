@@ -16,10 +16,6 @@ public class AddEmployee extends JFrame implements ActionListener {
     JComboBox  comboDep;
     JButton submit, view, back;
     AddEmployee() {
-        JFrame frame = new JFrame("Centered Button");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new GridBagLayout());
-
         // Create Laber For Heading
         JLabel empHeading = new JLabel("Tambahkan Pegawai Baru");
         empHeading.setBounds(290, 30, 500, 27);
