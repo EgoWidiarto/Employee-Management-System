@@ -95,6 +95,15 @@ public class AddEmpProject extends JFrame implements ActionListener {
             }
             projectComboBox.setModel(new DefaultComboBoxModel<>(employeeVector));
 
+            // Get Project Id From Selected Item
+            String selectedProject = (String) projectComboBox.getSelectedItem();
+            if(selectedProject == null) {
+                throw new IllegalArgumentException("Data Dalam Databse Masih Kosong");
+            } else {
+                String[] bagian = selectedProject.split(" - ");
+                projectId = bagian[0];
+            }
+
             resultSet.close();
             statement.close();
             conn.close();
@@ -119,15 +128,6 @@ public class AddEmpProject extends JFrame implements ActionListener {
             public void itemStateChanged(ItemEvent ie) {
                 try{
                     Connection conn = Conn.getConnection();
-
-                    // Mendapatkan Item Dari ComboBox
-                    String selectedProject = (String) projectComboBox.getSelectedItem();
-                    if(selectedProject == null) {
-                        throw new IllegalArgumentException("Data Dalam Databse Masih Kosong");
-                    } else {
-                        String[] bagian = selectedProject.split(" - ");
-                        projectId = bagian[0];
-                    }
 
                     String query = "SELECT DATEDIFF(end_date, CURDATE()) AS durasi FROM project WHERE project_id = ?";
                     PreparedStatement pstmt = conn.prepareStatement(query);

@@ -18,14 +18,15 @@ public class RemoveEmp extends JFrame implements ActionListener {
     Choice choiceSSN;
     JButton delete, back;
     RemoveEmp(){
+        JLabel empId = new JLabel("SSN Pegawai");
+        empId.setBounds(50, 50, 100, 30);
+        add(empId);
+
         // Setup Border Style
         Border line = BorderFactory.createLineBorder(Color.decode("#0e0e0e"));
         Border padding = new EmptyBorder(0, 10, 0, 0);
         Border compounBorder = new CompoundBorder(line, padding);
 
-        JLabel empId = new JLabel("SSN Pegawai");
-        empId.setBounds(50, 50, 100, 30);
-        add(empId);
         choiceSSN = new Choice();
         choiceSSN.setBounds(170, 50, 100, 30);
         add(choiceSSN);
@@ -171,7 +172,7 @@ public class RemoveEmp extends JFrame implements ActionListener {
 
     public boolean removeEmployee(String ssn) throws Exception {
         Connection conn = Conn.getConnection();
-        String query = "DELETE FROM employee WHERE ssn = ?";
+        String query = "CALL remove_emp(?)";
         PreparedStatement pstmt = conn.prepareStatement(query);
         pstmt.setString(1, ssn);
         int rowsDeleted = pstmt.executeUpdate();
