@@ -1,4 +1,4 @@
-package com.empSystem;
+package empSystem.admin;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class Home extends JFrame implements ActionListener {
 
-    JButton add, view, update, remove;
+    JButton add, view, update, remove, project;
 
     Home() {
         // Set heading Label
@@ -23,7 +23,7 @@ public class Home extends JFrame implements ActionListener {
         // Button Home Screen
         // Add Pegawai
         add = new JButton("Tambah Pegawai");
-        add.setBounds(310, 170, 330, 50);
+        add.setBounds(180, 140, 290, 50);
         add.setBackground(Color.decode("#213555"));
         add.setForeground(Color.decode("#F0F0F0"));
         add.setFont(font);
@@ -31,7 +31,7 @@ public class Home extends JFrame implements ActionListener {
         add(add);
         // View Pegawai
         view = new JButton("Lihat Pegawai");
-        view.setBounds(310, 230, 330, 50);
+        view.setBounds(180, 200, 290, 50);
         view.setBackground(Color.decode("#213555"));
         view.setForeground(Color.decode("#F0F0F0"));
         view.setFont(font);
@@ -39,7 +39,7 @@ public class Home extends JFrame implements ActionListener {
         add(view);
         // Update Pegawai
         update = new JButton("Perbarui Pegawai");
-        update.setBounds(310, 290, 330, 50);
+        update.setBounds(490, 140, 290, 50);
         update.setBackground(Color.decode("#213555"));
         update.setForeground(Color.decode("#F0F0F0"));
         update.setFont(font);
@@ -47,12 +47,20 @@ public class Home extends JFrame implements ActionListener {
         add(update);
         // Remove Pegawai
         remove = new JButton("Hapus Pegawai");
-        remove.setBounds(310, 350, 330, 50);
+        remove.setBounds(490, 200, 290, 50);
         remove.setBackground(Color.decode("#213555"));
         remove.setForeground(Color.decode("#F0F0F0"));
         remove.setFont(font);
         remove.addActionListener(this);
         add(remove);
+        // Project Employee
+        project = new JButton("Project");
+        project.setBounds(310, 260, 290, 50);
+        project.setBackground(Color.decode("#213555"));
+        project.setForeground(Color.decode("#F0F0F0"));
+        project.setFont(font);
+        project.addActionListener(this);
+        add(project);
 
         // Set Background Image
         ImageIcon imgPath = new ImageIcon("src/main/resources/img/ruangMeja.jpg");
@@ -77,8 +85,10 @@ public class Home extends JFrame implements ActionListener {
             new ViewEmployee();
         } else if (ae.getSource() == update) {
             new UpdateEmp("");
-        } else {
+        } else if (ae.getSource() == remove) {
             new RemoveEmp();
+        } else {
+            new PopUpProject();
         }
     }
 

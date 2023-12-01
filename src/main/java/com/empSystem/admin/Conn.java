@@ -1,4 +1,4 @@
-package com.empSystem;
+package empSystem.admin;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

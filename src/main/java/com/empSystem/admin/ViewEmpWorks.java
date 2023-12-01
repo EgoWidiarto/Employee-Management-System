@@ -1,4 +1,4 @@
-package com.empSystem;
+package empSystem.admin;
 
 import net.proteanit.sql.DbUtils;
 
@@ -18,16 +18,17 @@ public class ViewEmpWorks extends JFrame implements ActionListener {
     JComboBox<String> comboDepSearch = new JComboBox<>();
     String essn;
     ViewEmpWorks() {
-        JLabel headingView = new JLabel("Lihat Data Pegawai");
-        headingView.setBounds(340, 20, 250, 30);
+        JLabel headingView = new JLabel("Lihat Data Project Pegawai");
+        headingView.setBounds(310, 20, 280, 30);
         headingView.setFont(new Font("Poppins", Font.BOLD, 20));
         add(headingView);
 
         JLabel ssn = new JLabel("Filter SSN:");
-        ssn.setBounds(20, 70, 180, 30);
+        ssn.setBounds(160, 70, 180, 30);
+        ssn.setFont(new Font("Poppins", Font.BOLD, 14));
         add(ssn);
         txtEmp = new JTextField();
-        txtEmp.setBounds(20, 100, 200, 30);
+        txtEmp.setBounds(160, 100, 200, 30);
         add(txtEmp);
 
         JScrollPane jsp = new JScrollPane(table);
@@ -35,11 +36,12 @@ public class ViewEmpWorks extends JFrame implements ActionListener {
         add(jsp);
 
         // Search Employee From Their Department
-        JLabel depart = new JLabel("Filter Project:");
-        depart.setBounds(260, 70, 180, 30);
-        add(depart);
-        depart.setFont(new Font("Poppins", Font.PLAIN, 14));
-        comboDepSearch.setBounds(260, 100, 180, 30);
+        JLabel project = new JLabel("Filter Project:");
+        project.setBounds(390, 70, 180, 30);
+        project.setFont(new Font("Poppins", Font.BOLD, 14));
+        add(project);
+        project.setFont(new Font("Poppins", Font.PLAIN, 14));
+        comboDepSearch.setBounds(390, 100, 180, 30);
         comboDepSearch.setBackground(Color.WHITE);
         try {
             Connection connection = Conn.getConnection();
@@ -140,11 +142,10 @@ public class ViewEmpWorks extends JFrame implements ActionListener {
             }
         } else {
             setVisible(false);
-            new Home();
         }
     }
 
     public static void main(String[] args) {
-        new ViewEmpWorks();
+        new Splash();
     }
 }

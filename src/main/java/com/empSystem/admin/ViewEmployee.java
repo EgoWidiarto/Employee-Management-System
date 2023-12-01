@@ -1,4 +1,4 @@
-package com.empSystem;
+package empSystem.admin;
 
 import net.proteanit.sql.DbUtils;
 

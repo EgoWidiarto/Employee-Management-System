@@ -1,17 +1,19 @@
-package com.empSystem;
+package empSystem.admin;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
 
 
 public class AddEmpProject extends JFrame implements ActionListener {
@@ -54,7 +56,7 @@ public class AddEmpProject extends JFrame implements ActionListener {
             employeeComboBox.setModel(new DefaultComboBoxModel<>(employeeVector));
 
             // Menyeleksi SSN dari pegawai untuk diinputkan ke database
-            String selectedEmployee = (String) projectComboBox.getSelectedItem();
+            String selectedEmployee = (String) employeeComboBox.getSelectedItem();
             if(selectedEmployee == null) {
                 throw new IllegalArgumentException("Data Dalam Databse Masih Kosong");
             } else {
@@ -122,7 +124,7 @@ public class AddEmpProject extends JFrame implements ActionListener {
         add(projectDuration);
         txtDuration = new JLabel();
         txtDuration.setBounds(256, 240, 250, 30);
-        txtDuration.setFont(new Font("Poppins", Font.BOLD, 16));
+        txtDuration.setFont(new Font("Poppins", Font.BOLD, 12));
         txtDuration.setBorder(compounBorder);
         projectComboBox.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent ie) {
@@ -149,18 +151,21 @@ public class AddEmpProject extends JFrame implements ActionListener {
         submit.setBounds(140, 310, 100, 40);
         submit.setBackground(Color.decode("#22668D"));
         submit.setForeground(Color.decode("#FFFADD"));
+        submit.addActionListener(this);
         add(submit);
 
         view = new JButton("Lihat Pegawai");
         view.setBounds(260, 310, 140, 40);
         view.setBackground(Color.decode("#22668D"));
         view.setForeground(Color.decode("#FFFADD"));
+        view.addActionListener(this);
         add(view);
 
         back = new JButton("Kembali");
         back.setBounds(420, 310, 100, 40);
         back.setBackground(Color.decode("#22668D"));
         back.setForeground(Color.decode("#FFFADD"));
+        back.addActionListener(this);
         add(back);
 
         //  Set Screen Size And Screen Location
@@ -172,7 +177,7 @@ public class AddEmpProject extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new AddEmpProject();
+        new Splash();
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -189,9 +194,9 @@ public class AddEmpProject extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }
         } else if (e.getSource() == view) {
-
+            new ViewEmpWorks();
+            setVisible(false);
         } else {
-            new Home();
             setVisible(false);
         }
     }
