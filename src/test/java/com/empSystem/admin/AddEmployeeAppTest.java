@@ -41,7 +41,7 @@ public class AddEmployeeAppTest {
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
-            // Pastikan untuk selalu menutup resources Anda
+            // Pastikan untuk selalu menutup resources
             if (rs != null) {
                 try {
                     rs.close();
