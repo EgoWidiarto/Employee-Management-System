@@ -20,8 +20,7 @@ public class AddEmpProject extends JFrame implements ActionListener {
     private JComboBox<String> employeeComboBox, projectComboBox;
     private JLabel txtDuration;
     private JButton submit, view, back;
-    String projectId, ssn;
-    int durasi;
+    String projectId, ssn, durasi;
     AddEmpProject() {
         // Create Laber For Heading
         JLabel empHeading = new JLabel("Penempatan Project Pegawai");
@@ -56,6 +55,15 @@ public class AddEmpProject extends JFrame implements ActionListener {
             }
             employeeComboBox.setModel(new DefaultComboBoxModel<>(employeeVector));
 
+            // Menyeleksi SSN dari pegawai untuk diinputkan ke database
+            String selectedEmployee = (String) employeeComboBox.getSelectedItem();
+            if(selectedEmployee == null) {
+                throw new IllegalArgumentException("Data Dalam Databse Masih Kosong");
+            } else {
+                String[] bagian = selectedEmployee.split(" - ");
+                ssn = bagian[0];
+            }
+
             resultSet.close();
             statement.close();
             conn.close();
@@ -89,6 +97,15 @@ public class AddEmpProject extends JFrame implements ActionListener {
             }
             projectComboBox.setModel(new DefaultComboBoxModel<>(employeeVector));
 
+            // Get Project Id From Selected Item
+            String selectedProject = (String) projectComboBox.getSelectedItem();
+            if(selectedProject == null) {
+                throw new IllegalArgumentException("Data Dalam Databse Masih Kosong");
+            } else {
+                String[] bagian = selectedProject.split(" - ");
+                projectId = bagian[0];
+            }
+
             resultSet.close();
             statement.close();
             conn.close();
@@ -109,52 +126,25 @@ public class AddEmpProject extends JFrame implements ActionListener {
         txtDuration.setBounds(256, 240, 250, 30);
         txtDuration.setFont(new Font("Poppins", Font.BOLD, 12));
         txtDuration.setBorder(compounBorder);
-
-        employeeComboBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                // Menyeleksi SSN dari pegawai untuk diinputkan ke database
-                String selectedEmployee = (String) employeeComboBox.getSelectedItem();
-                if(selectedEmployee == null) {
-                    throw new IllegalArgumentException("Data Dalam Databse Masih Kosong");
-                } else {
-                    String[] bagian = selectedEmployee.split(" - ");
-                    ssn = bagian[0];
-                }
-            }
-        });
         projectComboBox.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent ie) {
-                if (ie.getStateChange() == ItemEvent.SELECTED) {
-                    // Get Project Id From Selected Item
-                    String selectedProject = (String) projectComboBox.getSelectedItem();
-                    if(selectedProject == null) {
-                        throw new IllegalArgumentException("Data Dalam Databse Masih Kosong");
-                    } else {
-                        String[] bagian = selectedProject.split(" - ");
-                        projectId = bagian[0];
-                        try{
-                            Connection conn = Conn.getConnection();
+                try{
+                    Connection conn = Conn.getConnection();
 
-                            String query = "SELECT DATEDIFF(end_date, CURDATE()) AS durasi FROM project WHERE project_id = ?";
-                            PreparedStatement pstmt = conn.prepareStatement(query);
-                            pstmt.setString(1, projectId);
-                            ResultSet result = pstmt.executeQuery();
-                            if(result.next()){
-                                durasi = result.getInt("durasi");
-                                txtDuration.setText(durasi + " Hari");
-                            } else {
-                                System.out.println("No results found for project ID: " + projectId);
-                            }
-                        }catch (SQLException ae) {
-                            ae.printStackTrace();
-                        }
+                    String query = "SELECT DATEDIFF(end_date, CURDATE()) AS durasi FROM project WHERE project_id = ?";
+                    PreparedStatement pstmt = conn.prepareStatement(query);
+                    pstmt.setString(1, projectId);
+                    ResultSet result = pstmt.executeQuery();
+                    while(result.next()){
+                        durasi = result.getString("durasi");
+                        txtDuration.setText(durasi + " Hari");
                     }
+                }catch (SQLException ae) {
+                    ae.printStackTrace();
                 }
             }
         });
         add(txtDuration);
-
 
         // Button Style
         submit = new JButton("Submit");
@@ -195,17 +185,11 @@ public class AddEmpProject extends JFrame implements ActionListener {
             try {
                 Connection conn = Conn.getConnection();
 
-                String query = "INSERT INTO works_on (essn, project_id, work_days) VALUES (?, ?, ?)";
+                String query = "INSERT INTO works_on (project_id, essn, work_dyas) VALUES (?, ?, ?)";
                 PreparedStatement pstmt = conn.prepareStatement(query);
-                pstmt.setString(1, ssn);
-                pstmt.setString(2, projectId);
-                pstmt.setInt(3, durasi);
-
-                int rowsAffected = pstmt.executeUpdate();
-
-                if (rowsAffected > 0) {
-                    JOptionPane.showMessageDialog(null, "Data berhasi dimasukkan");
-                }
+                pstmt.setString(1, projectId);
+                pstmt.setString(2, ssn);
+                pstmt.setInt(3, Integer.parseInt(durasi));
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -213,7 +197,6 @@ public class AddEmpProject extends JFrame implements ActionListener {
             new ViewEmpWorks();
             setVisible(false);
         } else {
-            new Home();
             setVisible(false);
         }
     }
