@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 public class ViewEmpWorks extends JFrame implements ActionListener {
     JTable table = new JTable();
     JTextField txtEmp;
-    JButton search, print, update, back;
+    JButton search, print, back;
 
     JComboBox<String> comboDepSearch = new JComboBox<>();
     String essn;

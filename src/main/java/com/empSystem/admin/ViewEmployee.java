@@ -14,11 +14,9 @@ public class ViewEmployee extends JFrame implements ActionListener {
     JTable table = new JTable();
     JTextField txtEmp;
     JButton search, print, update, back;
-
     JComboBox<String> comboDepSearch = new JComboBox<>();
     String essn;
     ViewEmployee() {
-
         JLabel headingView = new JLabel("Lihat Data Pegawai");
         headingView.setBounds(340, 20, 250, 30);
         headingView.setFont(new Font("Poppins", Font.BOLD, 20));
