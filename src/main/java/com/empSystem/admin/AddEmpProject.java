@@ -20,7 +20,7 @@ public class AddEmpProject extends JFrame implements ActionListener {
     private JComboBox<String> employeeComboBox, projectComboBox;
     private JLabel txtDuration;
     private JButton submit, view, back;
-    String projectId, projectChoices, ssn;
+    String projectId, ssn;
     int durasi;
     AddEmpProject() {
         // Create Laber For Heading
