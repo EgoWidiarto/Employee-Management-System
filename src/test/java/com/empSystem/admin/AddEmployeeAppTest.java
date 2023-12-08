@@ -1,4 +1,4 @@
-package com.empSystem;
+package empSystem.admin;
 
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class AddEmployeeAppTest {
             form.comboDep.setSelectedItem("IT");
 
             // Call the method
-            form.addEmployee();
+            form.addEmp();
 
             // Test Data Exist Ot Not
             stmt = conn.prepareStatement("SELECT * FROM employee WHERE ssn = ?");
@@ -41,7 +41,7 @@ public class AddEmployeeAppTest {
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
-            // Pastikan untuk selalu menutup resources Anda
+            // Pastikan untuk selalu menutup resources
             if (rs != null) {
                 try {
                     rs.close();
@@ -80,6 +80,6 @@ public class AddEmployeeAppTest {
         form.comboDep.setSelectedItem("IT");
 
         // Call the method
-        form.addEmployee();
+        form.addEmp();
     }
 }

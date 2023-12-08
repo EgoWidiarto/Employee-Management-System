@@ -1,4 +1,4 @@
-package com.empSystem;
+package empSystem.admin;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,10 +16,6 @@ public class AddEmployee extends JFrame implements ActionListener {
     JComboBox  comboDep;
     JButton submit, view, back;
     AddEmployee() {
-        JFrame frame = new JFrame("Centered Button");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new GridBagLayout());
-
         // Create Laber For Heading
         JLabel empHeading = new JLabel("Tambahkan Pegawai Baru");
         empHeading.setBounds(290, 30, 500, 27);
@@ -131,7 +127,7 @@ public class AddEmployee extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == submit) {
             try {
-                addEmployee();
+                addEmp();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
@@ -145,66 +141,64 @@ public class AddEmployee extends JFrame implements ActionListener {
         }
     }
 
-    public void addEmployee() throws Exception {
-        // Get a connection from your Conn class
-        Connection conn = Conn.getConnection();
+    public void addEmp() {
+        try (Connection conn = Conn.getConnection()) {
+            // Convert String To Date
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date parsed = format.parse(txtBdate.getText());
+            java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
 
-        // Convert String To Date
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        java.util.Date parsed = format.parse(txtBdate.getText());
-        java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
+            // Select dep_id From ComboBox
+            String selectedDepName = (String)comboDep.getSelectedItem();
+            String query = "SELECT dep_id FROM department WHERE dname = ?";
+            PreparedStatement pst = conn.prepareStatement(query);
+            pst.setString(1, selectedDepName);
+            ResultSet rs = pst.executeQuery();
+            String depId = null;
+            if (rs.next()) {
+                depId = rs.getString("dep_id");
+            }
 
-        // Select dep_id From ComboBox
-        String selectedDepName = (String)comboDep.getSelectedItem();
-        String query = "SELECT dep_id FROM department WHERE dname = ?";
-        PreparedStatement pst = conn.prepareStatement(query);
-        pst.setString(1, selectedDepName);
-        ResultSet rs = pst.executeQuery();
-        String depId = null;
-        if (rs.next()) {
-            depId = rs.getString("dep_id");
-        }
+            // Convert Salary To Big Decimal
+            BigDecimal salaryBig = new BigDecimal(txtSalary.getText());
 
-        // Convert Salary To Big Decimal
-        BigDecimal salaryBig = new BigDecimal(txtSalary.getText());
+            // Prepare an SQL statement
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO employee (name, bdate, ssn, address, sex, salary, dep_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
-        // Prepare an SQL statement
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO employee (name, bdate, ssn, address, sex, salary, dep_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            String nama = txtName.getText();
+            if(nama == null || nama.trim().isEmpty()) {
+                throw new IllegalArgumentException("Nama tidak boleh kosong");
+            }
+            // Set the values from the text fields
+            stmt.setString(1, txtName.getText());
+            stmt.setDate(2, sqlDate);
+            stmt.setString(3, txtSsn.getText());
+            stmt.setString(4, txtAddress.getText());
+            stmt.setString(5, txtSex.getText());
+            stmt.setBigDecimal(6, salaryBig);
+            if(depId != null || !depId.trim().isEmpty()) {
+                stmt.setString(7, depId);
+                // Setelah memasukkan data ke database, atur item yang dipilih menjadi null
+                comboDep.setSelectedItem(null);
+            } else {
+                throw new IllegalArgumentException("Department tidak boleh kosong");
+            }
 
-        String nama = txtName.getText();
-        if(nama == null || nama.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nama tidak boleh kosong");
-        }
-        // Set the values from the text fields
-        stmt.setString(1, txtName.getText());
-        stmt.setDate(2, sqlDate);
-        stmt.setString(3, txtSsn.getText());
-        stmt.setString(4, txtAddress.getText());
-        stmt.setString(5, txtSex.getText());
-        stmt.setBigDecimal(6, salaryBig);
-        if(depId != null || !depId.trim().isEmpty()) {
-            stmt.setString(7, depId);
-            // Setelah memasukkan data ke database, atur item yang dipilih menjadi null
-            comboDep.setSelectedItem(null);
-        } else {
-            throw new IllegalArgumentException("Department tidak boleh kosong");
-        }
+            // Execute the statement
+            int rowsAffected = stmt.executeUpdate();
 
-        // Execute the statement
-        int rowsAffected = stmt.executeUpdate();
-
-        if (rowsAffected > 0) {
-            JOptionPane.showMessageDialog(null, "Data inserted successfully");
-            txtName.setText("");
-            txtBdate.setText("");
-            txtSsn.setText("");
-            txtAddress.setText("");
-            txtSex.setText("");
-            txtSalary.setText("");
-        }
-
-        // Close the connection
-        conn.close();
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Data inserted successfully");
+                txtName.setText("");
+                txtBdate.setText("");
+                txtSsn.setText("");
+                txtAddress.setText("");
+                txtSex.setText("");
+                txtSalary.setText("");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }  
     }
 
     public static void main(String[] arg){
