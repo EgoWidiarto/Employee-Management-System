@@ -37,7 +37,7 @@ public class UpdateEmp extends JFrame implements ActionListener {
         Font font = new Font("Poppins", Font.PLAIN, 18);
 
         // Text Field
-        JLabel empName = new JLabel("Name");
+        JLabel empName = new JLabel("Nama");
         empName.setBounds(60, 120, 100, 30);
         empName.setFont(new Font("Poppins", Font.PLAIN, 18));
         add(empName);
@@ -55,7 +55,7 @@ public class UpdateEmp extends JFrame implements ActionListener {
         txtBdate.setBorder(compounBorder);
         add(txtBdate);
 
-        JLabel empSsn = new JLabel("SSN");
+        JLabel empSsn = new JLabel("NIP");
         empSsn.setBounds(60, 240, 150, 30);
         empSsn.setFont(font);
         add(empSsn);
@@ -64,7 +64,7 @@ public class UpdateEmp extends JFrame implements ActionListener {
         txtSsn.setBorder(compounBorder);
         add(txtSsn);
 
-        JLabel empSex = new JLabel("Gender");
+        JLabel empSex = new JLabel("Jenis Kelamin");
         empSex.setBounds(450, 120, 150, 30);
         empSex.setFont(font);
         add(empSex);

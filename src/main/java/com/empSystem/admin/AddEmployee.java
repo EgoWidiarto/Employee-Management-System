@@ -12,8 +12,8 @@ import java.text.SimpleDateFormat;
 
 
 public class AddEmployee extends JFrame implements ActionListener {
-    JTextField txtName, txtBdate, txtSsn, txtAddress, txtSex, txtSalary;
-    JComboBox  comboDep;
+    JTextField txtName, txtBdate, txtSsn, txtAddress, txtSalary;
+    JComboBox  comboDep, comboSex;
     JButton submit, view, back;
     AddEmployee() {
         // Create Laber For Heading
@@ -23,7 +23,7 @@ public class AddEmployee extends JFrame implements ActionListener {
         add(empHeading);
 
         // Text Field Dan Label
-        JLabel empName = new JLabel("Name");
+        JLabel empName = new JLabel("Nama");
         empName.setBounds(60, 120, 100, 30);
         empName.setFont(new Font("Poppins", Font.PLAIN, 18));
         add(empName);
@@ -39,7 +39,7 @@ public class AddEmployee extends JFrame implements ActionListener {
         txtBdate.setBounds(220, 180, 180, 30);
         add(txtBdate);
 
-        JLabel empSsn = new JLabel("SSN");
+        JLabel empSsn = new JLabel("NIP");
         empSsn.setBounds(60, 240, 150, 30);
         empSsn.setFont(new Font("Poppins", Font.PLAIN, 18));
         add(empSsn);
@@ -55,13 +55,16 @@ public class AddEmployee extends JFrame implements ActionListener {
         txtAddress.setBounds(220, 300, 180, 30);
         add(txtAddress);
 
-        JLabel empSex = new JLabel("Gender");
+        JLabel empSex = new JLabel("Jenis Kelamin");
         empSex.setBounds(450, 120, 150, 30);
         empSex.setFont(new Font("Poppins", Font.PLAIN, 18));
         add(empSex);
-        txtSex = new JTextField();
-        txtSex.setBounds(600, 120, 180, 30);
-        add(txtSex);
+        String[] empSexChoice = {"L", "P"};
+        comboSex = new JComboBox<>(empSexChoice);
+        comboSex.setSelectedIndex(-1);
+        comboSex.setBounds(600, 120, 180, 30);
+        comboSex.setBackground(Color.WHITE);
+        add(comboSex);
 
         JLabel empSalary = new JLabel("Gaji");
         empSalary.setBounds(450, 180, 150, 30);
@@ -174,7 +177,7 @@ public class AddEmployee extends JFrame implements ActionListener {
             stmt.setDate(2, sqlDate);
             stmt.setString(3, txtSsn.getText());
             stmt.setString(4, txtAddress.getText());
-            stmt.setString(5, txtSex.getText());
+            stmt.setString(5, (String)comboSex.getSelectedItem());
             stmt.setBigDecimal(6, salaryBig);
             if(depId != null || !depId.trim().isEmpty()) {
                 stmt.setString(7, depId);
@@ -193,7 +196,7 @@ public class AddEmployee extends JFrame implements ActionListener {
                 txtBdate.setText("");
                 txtSsn.setText("");
                 txtAddress.setText("");
-                txtSex.setText("");
+                comboSex.setSelectedIndex(-1);
                 txtSalary.setText("");
             }
         } catch (Exception e) {

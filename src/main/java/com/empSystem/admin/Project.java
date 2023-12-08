@@ -79,14 +79,14 @@ public class Project extends JFrame implements ActionListener {
 
         // Button Style
         submit = new JButton("Submit");
-        submit.setBounds(660, 110, 100, 30);
+        submit.setBounds(660, 110, 150, 30);
         submit.setBackground(Color.decode("#22668D"));
         submit.setForeground(Color.decode("#FFFADD"));
         submit.addActionListener(this);
         add(submit);
 
         back = new JButton("Kembali");
-        back.setBounds(660, 150, 100, 30);
+        back.setBounds(660, 150, 150, 30);
         back.setBackground(Color.decode("#22668D"));
         back.setForeground(Color.decode("#FFFADD"));
         back.addActionListener(this);
@@ -144,7 +144,7 @@ public class Project extends JFrame implements ActionListener {
                 java.util.Date parsedEnd = formatEndDate.parse(projectStart.getText());
                 java.sql.Date endtDate = new java.sql.Date(parsedEnd.getTime());
 
-                String query = "INSERT INTO works_on (project_id, pname, plocation, start_date, end_date, status) VALUES (?, ?, ?, ?, ?, ?)";
+                String query = "INSERT INTO project (project_id, pname, plocation, start_date, end_date, status) VALUES (?, ?, ?, ?, ?, ?)";
                 PreparedStatement pstmt = conn.prepareStatement(query);
                 pstmt.setString(1, projectId.getText());
                 pstmt.setString(2, projectName.getText());
@@ -152,10 +152,18 @@ public class Project extends JFrame implements ActionListener {
                 pstmt.setDate(4, startDate);
                 pstmt.setDate(5, endtDate);
                 pstmt.setString(6, projectStatus.getText());
+
+                int rowsAffected = pstmt.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(null, "Data berhasi dimasukkan");
+                    viewProject();
+                }
             } catch (SQLException | ParseException ex) {
                 ex.printStackTrace();
             }
         } else if (e.getSource() == back) {
+            new Home();
             setVisible(false);
         } else {
             new AddEmpProject();

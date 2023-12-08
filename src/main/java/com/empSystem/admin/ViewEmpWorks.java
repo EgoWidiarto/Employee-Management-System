@@ -141,6 +141,7 @@ public class ViewEmpWorks extends JFrame implements ActionListener {
                 ae.printStackTrace();
             }
         } else {
+            new Home();
             setVisible(false);
         }
     }

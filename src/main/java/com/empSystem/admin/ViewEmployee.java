@@ -96,7 +96,7 @@ public class ViewEmployee extends JFrame implements ActionListener {
     }
 
     public void viewEmp(String ssn) {
-            String section = "name, bdate, ssn, address, sex, salary, d.dname";
+            String section = "name AS \"Nama Lengkap\", bdate AS \"Tanggal Lahir\", ssn AS SSN, address AS Alamat, sex AS \"Jenis Kelamin\", salary AS Gaji, d.dname AS Department";
             String querySQL = "";
             if (ssn != null && !ssn.trim().isEmpty()) {
                 // Jika SSN diberikan, cari pegawai dengan SSN tersebut
