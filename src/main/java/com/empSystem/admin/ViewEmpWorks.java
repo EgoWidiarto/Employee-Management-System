@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 public class ViewEmpWorks extends JFrame implements ActionListener {
     JTable table = new JTable();
     JTextField txtEmp;
-    JButton search, print, update, back;
+    JButton search, print, back;
 
     JComboBox<String> comboDepSearch = new JComboBox<>();
     String essn;
@@ -93,7 +93,7 @@ public class ViewEmpWorks extends JFrame implements ActionListener {
         String querySQL = "";
         if (ssn != null && !ssn.trim().isEmpty()) {
             // Jika SSN diberikan, cari pegawai dengan SSN tersebut
-            querySQL = "SELECT e.name AS Nama, e.ssn AS SSN, p.project_id AS \"ID Project\", p.pname AS \"Nama Project\", CONCAT(work_days, ' hari') AS \"Durasi Project\" FROM employee e JOIN works_on wo ON e.ssn = wo.essn JOIN project p ON wo.project_id = p.project_id WHERE ssn = ?";
+            querySQL = "SELECT e.name AS \"Nama Lengkap\", e.ssn AS NIP, p.project_id AS \"ID Project\", p.pname AS \"Nama Project\", CONCAT(work_days, ' hari') AS \"Durasi Project\" FROM employee e JOIN works_on wo ON e.ssn = wo.essn JOIN project p ON wo.project_id = p.project_id WHERE ssn = ?";
         } else if (comboDepSearch.getSelectedIndex() > -1) {
             // Jika tidak, tampilkan semua pegawai
             querySQL = "SELECT e.name AS Nama, e.ssn AS SSN, p.project_id AS \"ID Project\", p.pname AS \"Nama Project\", CONCAT(work_days, ' hari') AS \"Durasi Project\" FROM employee e JOIN works_on wo ON e.ssn = wo.essn JOIN project p ON wo.project_id = p.project_id WHERE pname = ?";
@@ -141,6 +141,7 @@ public class ViewEmpWorks extends JFrame implements ActionListener {
                 ae.printStackTrace();
             }
         } else {
+            new Home();
             setVisible(false);
         }
     }

@@ -25,7 +25,7 @@ public class AddEmployeeAppTest {
             form.txtBdate.setText("1980-01-01");
             form.txtSsn.setText("22051214069");
             form.txtAddress.setText("123 Main St");
-            form.txtSex.setText("M");
+            form.comboSex.setSelectedItem("M");
             form.txtSalary.setText("50000");
             form.comboDep.setSelectedItem("IT");
 
@@ -75,7 +75,7 @@ public class AddEmployeeAppTest {
         form.txtBdate.setText("1980-01-01");
         form.txtSsn.setText("22051214069");  // Assuming this SSN already exists in the database
         form.txtAddress.setText("123 Main St");
-        form.txtSex.setText("M");
+        form.comboSex.setSelectedItem("M");
         form.txtSalary.setText("50000");
         form.comboDep.setSelectedItem("IT");
 

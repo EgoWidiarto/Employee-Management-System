@@ -18,8 +18,8 @@ public class RemoveEmp extends JFrame implements ActionListener {
     Choice choiceSSN;
     JButton delete, back;
     RemoveEmp(){
-        JLabel empId = new JLabel("SSN Pegawai");
-        empId.setBounds(50, 50, 100, 30);
+        JLabel empId = new JLabel("NIP Pegawai");
+        empId.setBounds(50, 50, 120, 30);
         add(empId);
 
         // Setup Border Style
@@ -28,7 +28,7 @@ public class RemoveEmp extends JFrame implements ActionListener {
         Border compounBorder = new CompoundBorder(line, padding);
 
         choiceSSN = new Choice();
-        choiceSSN.setBounds(170, 50, 100, 30);
+        choiceSSN.setBounds(170, 50, 150, 40);
         add(choiceSSN);
 
         try {
@@ -68,7 +68,7 @@ public class RemoveEmp extends JFrame implements ActionListener {
         lbAddresstxt.setBorder(compounBorder);
         add(lbAddresstxt);
 
-        JLabel labsex = new JLabel("Gender");
+        JLabel labsex = new JLabel("Jenis Kelamin");
         labsex.setBounds(500, 100, 100, 30);
         add(labsex);
         JLabel lbSextxt = new JLabel();

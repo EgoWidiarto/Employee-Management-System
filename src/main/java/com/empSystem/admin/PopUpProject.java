@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PopUpProject extends JFrame implements ActionListener {
-    JButton addproject, viewProject, worksOn;
+    JButton addproject, viewProject, worksOn, workViews;
     PopUpProject() {
         addproject = new JButton("Masukkan Pegawai");
         addproject.setBounds(55, 40, 220, 40);
@@ -29,10 +29,17 @@ public class PopUpProject extends JFrame implements ActionListener {
         worksOn.addActionListener(this);
         add(worksOn);
 
+        workViews = new JButton("Lihat Kegiatab Pegawai");
+        workViews.setBounds(55, 190, 220, 40);
+        workViews.setBackground(Color.decode("#22668D"));
+        workViews.setForeground(Color.decode("#FFFADD"));
+        workViews.addActionListener(this);
+        add(workViews);
+
         //  Set Screen Size And Screen Location
         getContentPane().setBackground(Color.WHITE);
         setLayout(null);
-        setSize(350, 250);
+        setSize(350, 290);
         setLocation(190, 50);
         setVisible(true);
     }
@@ -44,8 +51,10 @@ public class PopUpProject extends JFrame implements ActionListener {
        } else if(e.getSource() == addproject) {
            new AddEmpProject();
            setVisible(false);
-       } else {
+       } else if (e.getSource() == worksOn){
            new ViewEmpWorks();
+           setVisible(false);
+       } else {
            setVisible(false);
        }
     }

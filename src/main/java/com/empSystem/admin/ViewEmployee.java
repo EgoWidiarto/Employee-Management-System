@@ -14,11 +14,9 @@ public class ViewEmployee extends JFrame implements ActionListener {
     JTable table = new JTable();
     JTextField txtEmp;
     JButton search, print, update, back;
-
     JComboBox<String> comboDepSearch = new JComboBox<>();
     String essn;
     ViewEmployee() {
-
         JLabel headingView = new JLabel("Lihat Data Pegawai");
         headingView.setBounds(340, 20, 250, 30);
         headingView.setFont(new Font("Poppins", Font.BOLD, 20));
@@ -96,7 +94,7 @@ public class ViewEmployee extends JFrame implements ActionListener {
     }
 
     public void viewEmp(String ssn) {
-            String section = "name, bdate, ssn, address, sex, salary, d.dname";
+            String section = "name AS \"Nama Lengkap\", bdate AS \"Tanggal Lahir\", ssn AS NIP, address AS Alamat, sex AS \"Jenis Kelamin\", salary AS Gaji, d.dname AS Department";
             String querySQL = "";
             if (ssn != null && !ssn.trim().isEmpty()) {
                 // Jika SSN diberikan, cari pegawai dengan SSN tersebut
