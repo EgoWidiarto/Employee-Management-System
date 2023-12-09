@@ -55,11 +55,12 @@ public class PopUpProject extends JFrame implements ActionListener {
            new ViewEmpWorks();
            setVisible(false);
        } else {
+           new ViewEmpActivity();
            setVisible(false);
        }
     }
 
     public static void main(String[] args) {
-        new Splash();
+        new PopUpProject();
     }
 }
