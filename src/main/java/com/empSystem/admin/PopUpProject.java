@@ -29,7 +29,7 @@ public class PopUpProject extends JFrame implements ActionListener {
         worksOn.addActionListener(this);
         add(worksOn);
 
-        workViews = new JButton("Lihat Kegiatab Pegawai");
+        workViews = new JButton("Lihat Kegiatan Pegawai");
         workViews.setBounds(55, 190, 220, 40);
         workViews.setBackground(Color.decode("#22668D"));
         workViews.setForeground(Color.decode("#FFFADD"));
