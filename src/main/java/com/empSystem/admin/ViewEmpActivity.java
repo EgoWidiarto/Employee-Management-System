@@ -18,8 +18,8 @@ public class ViewEmpActivity extends JFrame implements ActionListener {
     JComboBox<String> comboDepSearch = new JComboBox<>();
     String essn;
     ViewEmpActivity() {
-        JLabel headingView = new JLabel("Lihat Data Kegiatan Pegawai");
-        headingView.setBounds(310, 20, 280, 30);
+        JLabel headingView = new JLabel("Data Kegiatan Pegawai");
+        headingView.setBounds(290, 20, 300, 30);
         headingView.setFont(new Font("Poppins", Font.BOLD, 20));
         add(headingView);
 
@@ -147,6 +147,6 @@ public class ViewEmpActivity extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new ViewEmpActivity();
+        new Splash();
     }
 }
