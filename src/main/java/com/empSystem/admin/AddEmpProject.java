@@ -185,7 +185,7 @@ public class AddEmpProject extends JFrame implements ActionListener {
             try {
                 Connection conn = Conn.getConnection();
 
-                String query = "INSERT INTO works_on (project_id, essn, work_dyas) VALUES (?, ?, ?)";
+                String query = "INSERT INTO works_on (essn, project_id, work_days) VALUES (?, ?, ?)";
                 PreparedStatement pstmt = conn.prepareStatement(query);
                 pstmt.setString(1, projectId);
                 pstmt.setString(2, ssn);

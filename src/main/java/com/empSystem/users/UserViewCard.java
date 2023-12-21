@@ -28,7 +28,7 @@ public class UserViewCard extends JFrame implements ActionListener {
         // Setup Font Style
         Font font = new Font("Poppins", Font.PLAIN, 18);
 
-        JLabel empHeading = new JLabel("Project Perusahaan");
+        JLabel empHeading = new JLabel("Data Diri Pegawai");
         empHeading.setBounds(295, 30, 500, 27);
         empHeading.setFont(new Font("Poppins", Font.BOLD, 25));
         add(empHeading);
@@ -118,7 +118,7 @@ public class UserViewCard extends JFrame implements ActionListener {
         }
 
         submit = new JButton("Input Kegiatan");
-        submit.setBounds(250, 410, 100, 40);
+        submit.setBounds(250, 410, 150, 40);
         submit.setBackground(Color.decode("#22668D"));
         submit.setForeground(Color.decode("#FFFADD"));
         submit.addActionListener(this);
