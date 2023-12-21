@@ -90,7 +90,7 @@ public class ViewEmpActivity extends JFrame implements ActionListener {
     }
 
     public void viewWorks(String ssn) {
-        String selected = "e.name AS \"Nama Lengkap\", e.ssn AS NIP, p.pname AS \"Nama Project\", works AS Kegiatan, work_time AS Waktu";
+        String selected = "e.name AS \"Nama Lengkap\", e.ssn AS NIP, p.pname AS \"Nama Project\", works AS Kegiatan, wl.work_time AS Waktu";
         String querySQL = "";
         if (ssn != null && !ssn.trim().isEmpty()) {
             // Jika SSN diberikan, cari pegawai dengan SSN tersebut

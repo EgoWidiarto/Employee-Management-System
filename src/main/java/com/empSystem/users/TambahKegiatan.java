@@ -8,19 +8,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Vector;
 
 public class TambahKegiatan extends JFrame implements ActionListener {
     JTextField txtWorks;
     JComboBox projectComboBox;
     JButton submit;
-    String empId, projectId;
+    String empId, ssnSelect, protId;
     TambahKegiatan(String ssn) {
         this.empId = ssn;
+        ssnSelect = this.empId;
+        System.out.println(ssnSelect);
 
         JLabel project = new JLabel("Project");
         project.setBounds(150, 20, 120, 30);
@@ -73,7 +72,7 @@ public class TambahKegiatan extends JFrame implements ActionListener {
                     throw new IllegalArgumentException("Data Dalam Databse Masih Kosong");
                 } else {
                     String[] bagian = selectedEmployee.split(" - ");
-                    projectId = bagian[0];
+                    protId = bagian[0];
                 }
             }
         });
@@ -98,11 +97,13 @@ public class TambahKegiatan extends JFrame implements ActionListener {
         try {
             Connection conn = Conn.getConnection();
 
-            String query = "INSERT INTO works_on (essn, project_id, works, work_time) VALUES (?, ?, ?)";
+            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+            String query = "INSERT INTO work_log (essn, project, works, work_time) VALUES (?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, empId);
-            pstmt.setString(2, projectId);
+            pstmt.setString(1, ssnSelect);
+            pstmt.setString(2, protId);
             pstmt.setString(3, txtWorks.getText());
+            pstmt.setTimestamp(4, currentTime);
 
             int rowsAffected = pstmt.executeUpdate();
 
